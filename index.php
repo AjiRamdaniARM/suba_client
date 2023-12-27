@@ -1,7 +1,7 @@
 <?php
 session_start();
 include 'config/connect.php';
-$sql =  "SELECT * FROM tb_client";
+$sql =  "SELECT * FROM tb_client WHERE 1";
 $all_client = $conn->query($sql);
 ?>
 
@@ -19,6 +19,31 @@ $all_client = $conn->query($sql);
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.23/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="js/tailwind.js"></script>
+    <script>$(document).ready(function() {
+    showdata();
+});
+function showdata(){
+    $.ajax({
+        url: './fetch.php',
+        method: 'post',
+        success: function(result)
+        {
+            $("#result").html(result);
+        }
+    });
+}
+function selectdata(cat){
+    $.ajax({
+        url: 'select-data.php',
+        method: 'post',
+        data: 'cat_name=' + cat,
+        success: function(result){
+            $("#result").html(result);
+        }
+    })
+}
+</script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
     <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
@@ -37,7 +62,7 @@ $all_client = $conn->query($sql);
   <div class="display">
     <div class="artboard artboard-demo phone-1">
     <lottie-player src="https://lottie.host/aa5f650a-2d85-44f5-91dc-654888efeb35/c7poDm12J8.json" background="##fff" speed="1" style="width: 300px; height: 300px" loop controls autoplay direction="1" mode="normal"></lottie-player>
-    
+
     </div>
   </div>
 </div>
@@ -60,11 +85,11 @@ $all_client = $conn->query($sql);
   <option>Interior / Exterior</option>
 </select>&nbsp;&nbsp;
 
-<select name="client" id="client" class="select select-warning  w-full max-w-xs">
-  <option disabled selected>Select Style</option>
+<select onchange="selectdata(this.options[this.selectedIndex].value)" class="select select-warning  w-full max-w-xs">
+  <option value="All">All Style</option>
   <option value="scandinavian">Scandanavian</option>
   <option value="minimalist">Minimalist</option>
-  <option value="modern">Modern</option>
+  <option value="tropical">tropical</option>
 </select>
         </div>
         <!-- Jumbotron -->
@@ -72,17 +97,11 @@ $all_client = $conn->query($sql);
       <!-- Section: Design Block -->
 
 <div class="container mx-auto">
-      <div class="grid grid-cols-12 gap-4">
-
-      <?php  
-      while($row = mysqli_fetch_assoc($all_client)) {
-
-   
-      ?>
+      <div id="result" class="grid grid-cols-12 gap-4">
 <!-- Column -->
-<div class="col-span-12 md:col-span-6 lg:col-span-3">
+<!-- <div  class="col-span-12 md:col-span-6 lg:col-span-3"> -->
    <!-- Card -->
-   <div class="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+   <!-- <div class="group flex flex-col h-full bg-white border border-gray-200 shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
       <div class="h-52 flex flex-col justify-center items-center bg-yellow-600 rounded-t-xl">
       <img src="https://drive.google.com/uc?export=view&id=<?php echo $row['id_poto'] ?>" alt="portofolio">
       </div>
@@ -103,10 +122,10 @@ $all_client = $conn->query($sql);
         </a>
 
       </div>
-    </div>
+    </div> -->
     <!-- End Card -->
-</div>
-<?php    } ?>
+<!-- </div> -->
+
 
 
 
@@ -115,24 +134,6 @@ $all_client = $conn->query($sql);
       
     </div>
 </body>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#client").on('change', function(){
-            var value  = $(this).val();
 
-            $.ajax({
-                url:'fetch.php',
-                type: "POST",
-                data: 'request=' +value;
-                beforeSend:function() {
-                    $(".container").html("<span>Working..</span>")
-                },
-                success:function(data) {
-                    $('.container').html(data)
-                }
-            })
-        })
-    })
-</script>
 </html>
 

@@ -23,7 +23,7 @@ include 'config/connect.php';
     <div class="flex flex-wrap gap-10 justify-center items-center">
         <div class="content-text">
         <h1 class="DM-Sans font-bold w-[8em] mx-auto lg:text-start text-4xl text-center lg:text-6xl py-3 lg:w-[7em] text-white">Welcome, Admin Suba Client</h1>
-        <p class="text-white text-[10px] lg:px-0 px-5 text-center lg:text-start lg:w-[25em]">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Feugiat nulla suspendisse tortor aenean dis placerat.</p>
+        <p class="text-white text-[10px] lg:px-0 px-5 text-center lg:text-start lg:w-[25em]">Untuk masuk ke halaman admin di mohon untuk memasukkan username dan password anda dengan benar dan sudah terdaftar di database kami.</p>
         </div>
 
         <div class="content-form">
@@ -52,7 +52,7 @@ include 'config/connect.php';
     </div>
   </form>
   <p class="text-center text-gray-500 text-xs">
-    &copy;2020 Suba Arch Studio. All rights reserved.
+    &copy;2023 Suba Arch Studio. All rights reserved.
   </p>
 </div>
         </div>

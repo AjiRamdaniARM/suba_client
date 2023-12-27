@@ -72,42 +72,42 @@ $poto = $canak->fetch_assoc();
 
     ?>
     <div class="mx-auto">
-    <div class="flex flex-wrap justify-center items-center gap-4">
+    <div class="grid lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3  sm:grid-cols-1 sm:gap-5  md:grid-cols-1 gap-5 justify-center items-center lg:gap-4 md:gap-5">
 
 
-<div>
+<div class="cols-span">
 <img
   src="https://drive.google.com/uc?export=view&id=<?php echo $poto['id_poto1'] ?>"
   class="h-auto max-w-full"
   alt="<?php echo $detail['kategori'] ?>" />
 </div>
 
-<div>
+<div class="cols-span">
 <img
   src="https://drive.google.com/uc?export=view&id=<?php echo $poto['id_poto2'] ?>"
   class="h-auto max-w-full"
   alt="<?php echo $detail['kategori'] ?>" />
 </div>
 
-<div>
+<div class="cols-span">
 <img
   src="https://drive.google.com/uc?export=view&id=<?php echo $poto['id_poto3'] ?>"
   class="h-auto max-w-full"
   alt="<?php echo $detail['kategori'] ?>" />
 </div>
-<div>
+<div class="cols-span">
 <img
   src="https://drive.google.com/uc?export=view&id=<?php echo $poto['id_poto4'] ?>"
   class="h-auto max-w-full"
  alt="<?php echo $detail['kategori'] ?>" />
 </div>
-<div>
+<div class="cols-span">
 <img
   src="https://drive.google.com/uc?export=view&id=<?php echo $poto['id_poto5'] ?>"
   class="h-auto max-w-full"
  alt="<?php echo $detail['kategori'] ?>" />
 </div>
-<div>
+<div class="cols-span">
 <img
   src="https://drive.google.com/uc?export=view&id=<?php echo $poto['id_poto6'] ?>"
   class="h-auto max-w-full"

@@ -14,10 +14,16 @@ include 'sidebar.php';
     <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.css"  rel="stylesheet" /> -->
     <link rel="stylesheet" href="css/app.css" />
     <script src="js/tailwind.js"></script>
+    <style>
+          body {
+    overflow-x: hidden;
+    background-color: #1E1E1E;
+  }
+    </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 </head>
-<body style="background-color: #1E1E1E">
+<body >
     
 </body>
 </html>

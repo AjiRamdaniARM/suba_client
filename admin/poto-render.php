@@ -2,7 +2,7 @@
 
 <?php
 error_reporting(E_ERROR | E_PARSE);
-$query = mysqli_query($conn, "SELECT * FROM tb_poto");
+$query = mysqli_query($conn, "SELECT * FROM tb_poto WHERE 1");
 while ($record = mysqli_fetch_array($query)) {
     $result[] = $record;
 }
@@ -44,7 +44,7 @@ while ($record = mysqli_fetch_array($query)) {
                 <div>
                         <label for="floatingInput" class="block mb-2 flex justify-between text-sm font-medium text-gray-900 dark:text-white" >
                             <div>Id Client</div>
-                            <a href="" class="text-blue-500">Lupa Id Client?</a>
+                            <a href="dashbord.php?admin=client" class="text-blue-500">Lupa Id Client?</a>
                         </label>
                         <input type="text" name="id_client" id="floatingInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Cth: Harus sesuai dengan Id Client" required>
                     </div>
@@ -103,7 +103,7 @@ while ($record = mysqli_fetch_array($query)) {
             foreach ($result as $row ) {
             ?>
         <div class="hidden duration-200 ease-linear" data-carousel-item>
-            <img src="https://drive.google.com/uc?export=view&id=<?php echo $row['id_poto1'] ?>" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="...">
+            <img src="https://drive.google.com/uc?export=view&id=<?php echo $row['id_poto1'] ?>" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="<?php echo $row['id_client']  ?>">
         </div>
         <?php } ?>
  
@@ -135,17 +135,18 @@ while ($record = mysqli_fetch_array($query)) {
 
 <!-- <img src="" alt=""><img src="https://drive.google.com/uc?export=view&id=<?php echo $row['id_poto1'] ?>" alt="Arsitek"> -->
 
+
 <!-- edit client -->
-<div id="default-modal-edit<?php echo['id_poto'] ?>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
+<div id="modal-edit-poto<?php echo $row['id_poto'] ?>" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                 <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                    Terms of Service
+                    Edit Client 
                 </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal-edit">
+                <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="modal-edit-poto<?php echo $row['id_poto'] ?>">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                     </svg>
@@ -153,61 +154,98 @@ while ($record = mysqli_fetch_array($query)) {
                 </button>
             </div>
             <!-- Modal body -->
-            <div class="p-4 md:p-5 space-y-4">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-            </div>
-            <!-- Modal footer -->
-            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button data-modal-hide="default-modal-edit" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                <button data-modal-hide="default-modal-edit" type="button" class="ms-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
+            <div class="p-4 md:p-5">
+                <form class="space-y-4" novalidate action="./config/edit-poto.php" method="post">
+                <input type="hidden" value="<?php echo $row['id_poto'] ?>" name="id_poto">
+                <div>
+                        <label for="floatingInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" >Id Client</label>
+                        <input type="text" name="id_client" id="floatingInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="<?php echo $row['id_client'] ?>" value="<?php echo $row['id_client'] ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id poto1</label>
+                        <input type="text" name="poto1" id="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="<?php echo $row['id_poto1'] ?>" value="<?php echo $row['id_poto1'] ?>" required>
+                    </div>
+
+                    <div>
+                        <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id poto2</label>
+                        <input type="text" name="poto2" id="text" placeholder="<?php echo $row['id_poto2'] ?> " value="<?php echo $row['id_poto2'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+
+                    <div>
+                        <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id poto3</label>
+                        <input type="text" name="poto3" id="text" placeholder="<?php echo $row['id_poto3'] ?>" value="<?php echo $row['id_poto3'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+
+                    <div>
+                        <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id poto4</label>
+                        <input type="text" name="poto4" id="text" placeholder="<?php echo $row['id_poto4'] ?>" value="<?php echo $row['id_poto4'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+
+                    <div>
+                        <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id poto5</label>
+                        <input type="text" name="poto5" id="text" placeholder="<?php echo $row['id_poto5'] ?>" value="<?php echo $row['id_poto5'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+
+                    <div>
+                        <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Id poto6</label>
+                        <input type="text" name="poto6" id="text" placeholder="<?php echo $row['id_poto6'] ?>" value="<?php echo $row['id_poto6'] ?>" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
+                    </div>
+
+                    <div class="flex justify-between">
+                    </div>
+                    <button type="submit" name="selesai_edit" class="w-full text-white bg-blue-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800">Selesai</button>
+                    <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                        Tidak jadi? <a href="#"
+                        data-modal-hide="modal-edit-poto<?php echo $row['id_poto'] ?>"
+                         class="text-yellow-700 hover:underline dark:text-yellow-500">Keluar</a>
+                    </div>
+                </form>
+     
             </div>
         </div>
     </div>
-</div>
+</div> 
+
+
 
 <!-- delete client -->
-
-<div id="ModalDelete<?php echo $row['id_poto'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" class="ModalDelete hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<!-- <div id="popup-modal-delete<?php echo $row['id_poto'] ?>" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="ModalDelete">
+            <button type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal<?php echo $row['id_client'] ?>">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                 </svg>
-                <span class="sr-only">Close modal</span>
+                <span class="sr-only">Close Delete</span>
             </button>
+            <form action="./config/delete-poto.php" novalidate method="POST">
+            <input type="hidden" value="<?php echo $row['id_poto'] ?>" name="id_poto">
             <div class="p-4 md:p-5 text-center">
                 <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>
-                <form action="./config/delete.php">
-                <input type="hidden" value="<?php echo $row['id_client'] ?>" name="id_client">
-               
-                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Apakah kamu yakin ingin menghapus data <?php echo $row['nama_client'] ?></h3>
-                <button data-modal-hide="ModalDelete" type="submit" name="delete" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
-                    Yes, I'm sure
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">Kamu Yakin ingin menghapus data <?php echo $row['id_client']  ?></h3>
+                <button name="delete_client" data-modal-hide="popup-modal" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
+                    Iya, saya yakin
                 </button>
-                <button data-modal-hide="ModalDelete type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No, cancel</button>
+                <button data-modal-hide="popup-modal-delete<?php echo $row['id_poto'] ?>" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Tidak</button>
             </div>
-            </form>
+        </form>
         </div>
     </div>
-</div>
+</div> -->
+
 
 
 
 
 
     <!-- table data -->
-  <div class="flex flex-col py-5  px-5 overflow-x-auto">
+  <div class="flex flex-col py-5  px-5 overflow-x-auto lg:overflow-x ">
   <div class="sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-      <div class="overflow-x-auto">
+      <div>
       <?php
             }
             if (empty($result)) {
@@ -251,8 +289,8 @@ while ($record = mysqli_fetch_array($query)) {
               <td class="whitespace-nowrap px-6 py-4"><?php echo $row['id_poto5'] ?></td>
               <td class="whitespace-nowrap px-6 py-4"><?php echo $row['id_poto6'] ?></td>
               <td class="whitespace-nowrap px-6 py-4">
-                <button type="button" data-modal-target="#default-modal-edit<?php echo['id_poto'] ?>"  data-modal-toggle="default-modal-edit" class="bg-yellow-500 px-2 py-2 rounded-full font-bold">Edit</button>
-                <button  data-target="#ModalDelete<?php echo $row['id_poto'] ?>" data-modal-toggle="ModalDelete" class="bg-red-500 px-2 py-2 rounded-full font-bold">Delete</button>
+              <button type="button" data-modal-target="modal-edit-poto<?php echo $row['id_poto'] ?>"  data-modal-toggle="modal-edit-poto<?php echo $row['id_poto'] ?>" class="bg-yellow-500 px-2 py-2 rounded-full font-bold">Edit</button>
+                <!-- <button  data-modal-target="popup-modal-delete<?php echo $row['id_poto'] ?>" data-modal-toggle="popup-modal-delete<?php echo $row['id_poto'] ?>" class="bg-red-500 px-2 py-2 rounded-full font-bold" type="button">Delete</button> -->
                 
               </td>
             </tr>
