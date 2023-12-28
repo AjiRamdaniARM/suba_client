@@ -80,11 +80,6 @@ function selectdata(cat){
           <h1 class="mt-2 mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-6xl">
             Explore the results of Architect services <br /><span class="text-warning">Suba Arch Studio</span>
           </h1>
-    <select class="select select-warning w-full max-w-xs">
-  <option disabled selected>Select Render</option>
-  <option>Interior / Exterior</option>
-</select>&nbsp;&nbsp;
-
 <select onchange="selectdata(this.options[this.selectedIndex].value)" class="select select-warning  w-full max-w-xs">
   <option value="All">All Style</option>
   <option value="scandinavian">Scandanavian</option>
